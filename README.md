@@ -156,7 +156,7 @@ DornGames & Dorn Hub
 
 ---
 
-# AlphaTonh · 𣿅子棋
+# AlphaTonh · Reversi
 
 <img src="https://dornhub.eu.org/resources/images/TonhTzeAI/TonhTzeAI-logo-v1-light.svg" alt="TonhTzeAI-logo-v1-light" width="400"><img src="https://dornhub.eu.org/resources/images/TonhTzeAI/TonhTzeAI-logo-v1-dark.svg" alt="TonhTzeAI-logo-v1-dark" width="400">
 
@@ -164,7 +164,7 @@ DornGames & Dorn Hub
 
 ## 关于游戏
 
-**《AlphaTonh · 𣿅子棋》** 是一款使用 Python 与 Tkinter 开发的完整黑白棋（又称苹果棋、翻转棋）游戏。它内置了一位名为 **"𣿅子"** 的轻量级 AlphaGo 风格 AI 对手，采用 **蒙特卡洛树搜索（MCTS）** 算法驱动，带来经典策略体验与现代化的浅色界面。
+**《AlphaTonh · Reversi》** 是一款使用 Python 与 Tkinter 开发的完整黑白棋（又称苹果棋、翻转棋）游戏。它内置了一位名为 **"𣿅子"** 的轻量级 AlphaGo 风格 AI 对手，采用 **蒙特卡洛树搜索（MCTS）** 算法驱动，带来经典策略体验与现代化的浅色界面。
 
 操控黑棋，翻转对手的棋子，掌控 8×8 棋盘。AI 对手"𣿅子"拥有四种不同的情绪状态 —— 思考中、等待中、胜利、失败 —— 每种状态都配有专属立绘，让对手仿佛拥有了鲜活的生命力。
 
