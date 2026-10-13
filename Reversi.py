@@ -7,7 +7,7 @@ import os
 import sys
 
 
-# ==================== 打包资源路径 ====================
+# 打包资源路径
 def resource_path(relative_path):
     """获取资源绝对路径，兼容开发环境与 PyInstaller 打包环境"""
     if getattr(sys, 'frozen', False):
@@ -17,17 +17,17 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-# ==================== 棋盘常量 ====================
+# 棋盘常量
 BOARD_SIZE = 8
 EMPTY = 0
 BLACK = 1
 WHITE = -1
 DIRECTIONS = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
 
-AI_NAME = "𣿅子"   # AI 名字（扩展 B 区汉字，自动用 SimSun-ExtB 显示）
+AI_NAME = "𣿅子"
 
 
-# ==================== ★ Unicode 扩展字工具 ====================
+# Unicode 扩展字工具
 class UnicodeText:
     """扩展字符自动字体处理：含 >U+FFFF 的字符时自动换字体"""
     HAS_EXTB  = None    # 延迟初始化（需要 Tk root）
@@ -89,11 +89,11 @@ class UnicodeText:
                 idx = text_widget.index(f"{idx}+1c")
 
 
-# ==================== ★ UI 配置区（浅色主题） ====================
+# UI 配置区
 class UIConfig:
     TITLE = "AlphaTonh · Reversi"
 
-    # ---- 关于信息 ----
+    # 关于
     APP_NAME     = "AlphaTonh · Reversi"
     APP_VERSION  = "1.0"
     AUTHOR       = "cgy22"
@@ -104,7 +104,7 @@ class UIConfig:
     DESCRIPTION  = "基于 MCTS 的黑白棋 AI 对战程序"
     LICENSE      = "MIT License | The pictures are our private art creations and are licensed under CC BY-NC-ND 4.0 License."
 
-    # ---- 窗口配色（浅色） ----
+    # 窗口配色
     WINDOW_BG   = "#f5f6f8"
     PANEL_BG    = "#ffffff"
     TEXT_COLOR  = "#1f2430"
@@ -117,47 +117,47 @@ class UIConfig:
 
     ICON_PATH = "icon.ico"
 
-    # ---- 棋盘尺寸 ----
+    # 棋盘尺寸
     CELL = 72
     MARGIN = 28
 
-    # ---- 棋盘配色（浅色木纹感） ----
+    # 棋盘配色
     BOARD_BG   = "#e8d5a9"
     GRID_COLOR = "#b89b6a"
     GRID_WIDTH = 1
 
     BOARD_IMAGE = ""
 
-    # ---- 棋子 ----
+    # 棋子
     BLACK_FILL = "#1a1a1a"
     WHITE_FILL = "#fdfdfd"
     PIECE_OUTLINE = "#555555"
     PIECE_OUTLINE_WIDTH = 2
     PIECE_PADDING = 6
 
-    # ---- 提示点 ----
+    # 提示点
     HINT_HUMAN = "#16DA49"
     HINT_AI    = "#ff6b8a"
     HINT_RADIUS = 6
     SHOW_HINTS = True
 
-    # ---- 字体 ----
+    # 字体
     FONT_INFO   = ("Segoe UI", 10)
     FONT_LOG    = ("Consolas", 9)
     FONT_BUTTON = ("Segoe UI Semibold", 10)
     FONT_TITLE  = ("Segoe UI Semibold", 14)
 
-    # ---- 面板尺寸 ----
+    # 面板尺寸
     PANEL_WIDTH = 34
     PANEL_HEIGHT = 20
 
-    # ---- AI 基本参数 ----
+    # AI 基本参数
     AI_TIME_LIMIT = 2.0
     MCTS_C_PARAM  = 1.414
     AI_THINK_DELAY = 100
     PASS_DELAY = 200
 
-    # ---- AI 等级（时间秒, 随机失误率）----
+    # AI 等级（时间秒, 随机失误率）
     LEVELS = {
         "简单": (0.3, 0.30),
         "普通": (1.0, 0.10),
@@ -166,9 +166,9 @@ class UIConfig:
     }
     DEFAULT_LEVEL = "普通"
 
-    # ---- AI 状态立绘 ----
+    # AI 状态立绘
     AI_IMG_DIR = "ai_images"
-    AI_IMG_SIZE = (160, 160)     # ★ 改成 160×160
+    AI_IMG_SIZE = (160, 160)
     AI_STATE_FILES = {
         "thinking": "thinking.png",
         "waiting":  "waiting.png",
@@ -176,7 +176,7 @@ class UIConfig:
         "lose":     "lose.png",
     }
 
-    # ---- ★ 七种配色方案（浅色主题）----
+    # 七种配色方案
     THEMES = {
         "𣿅国绿": dict(
             WINDOW_BG="#f4faf5", PANEL_BG="#ffffff",
@@ -208,7 +208,6 @@ class UIConfig:
             ACCENT="#FF69B4", ACCENT_HOVER="#e655a0"),
     }
     DEFAULT_THEME = "𣿅国绿"
-# ==================================================================
 
 
 class ReversiBoard:
@@ -277,8 +276,6 @@ class ReversiBoard:
         w = sum(row.count(WHITE) for row in self.board)
         return b, w
 
-
-# ==================== MCTS ====================
 class MCTSNode:
     __slots__ = ['board', 'player', 'parent', 'children',
                  'visits', 'wins', 'untried_moves', 'move']
@@ -408,7 +405,7 @@ class MCTS:
             current = current.parent
 
 
-# ==================== 图形界面 ====================
+# 图形界面
 class ReversiGUI:
     def __init__(self, root):
         cfg = UIConfig
@@ -422,7 +419,6 @@ class ReversiGUI:
         self._setup_style()
         self._setup_icon()
 
-        # ---- 状态 ----
         self.board = ReversiBoard()
         self.level_name = cfg.DEFAULT_LEVEL
         t, mr = cfg.LEVELS[self.level_name]
@@ -445,7 +441,7 @@ class ReversiGUI:
         self.draw_board()
         self.update_info()
 
-    # ---------------- 主题 / 样式 ----------------
+    # 主题/样式
     def _apply_theme_colors(self, colors):
         cfg = self.cfg
         cfg.WINDOW_BG = colors["WINDOW_BG"]
@@ -520,7 +516,7 @@ class ReversiGUI:
         except Exception:
             pass
 
-    # ---------------- 图标 / 图片 ----------------
+    # 图标图片
     def _setup_icon(self):
         path = self.cfg.ICON_PATH
         if not path:
@@ -577,7 +573,7 @@ class ReversiGUI:
             except Exception as e:
                 print(f"加载 AI 状态图 {fname} 失败：", e)
 
-    # ---------------- 构建 UI ----------------
+    # 构建 UI
     def _build_ui(self):
         cfg = self.cfg
 
@@ -592,7 +588,7 @@ class ReversiGUI:
         self.canvas.pack(side=tk.LEFT, padx=12, pady=12)
         self.canvas.bind("<Button-1>", self.on_click)
 
-        # ★ AI 立绘区：容器不锁死，让它自动适应图片
+        # AI 立绘区
         self.ai_frame = tk.Frame(self.main_frame, bg=cfg.PANEL_BG,
                                  highlightthickness=1,
                                  highlightbackground=cfg.BORDER)
@@ -604,7 +600,7 @@ class ReversiGUI:
                                       font=ai_name_font)
         self.ai_name_label.pack(pady=(10, 4))
 
-        # ★ Label 不再预设字符尺寸，让图片撑开
+        
         self.ai_img_label = tk.Label(self.ai_frame, bg=cfg.PANEL_BG,
                                      text="(无图片)", fg=cfg.SUBTEXT,
                                      font=cfg.FONT_INFO)
@@ -640,7 +636,7 @@ class ReversiGUI:
                                   style="Accent.TButton", command=self.new_game)
         self.btn_new.pack(anchor=tk.W, padx=10, pady=12)
 
-    # ---------------- AI 状态切换 ----------------
+    # AI 状态切换
     def set_ai_state(self, state):
         labels = {
             "thinking": f"{AI_NAME}思考中…",
@@ -660,7 +656,7 @@ class ReversiGUI:
         self.ai_state_label.config(text=text,
                                    font=UnicodeText.pick_font(text, self.cfg.FONT_INFO))
 
-    # ---------------- 菜单 ----------------
+    # 菜单
     def build_menu(self):
         menubar = tk.Menu(self.root)
 
@@ -713,7 +709,7 @@ class ReversiGUI:
 
         self.root.config(menu=menubar)
 
-    # ---------------- 菜单动作 ----------------
+    # 菜单动作
     def browse_icon(self):
         path = filedialog.askopenfilename(
             title="选择窗口图标 (PNG/GIF/ICO)",
@@ -838,7 +834,7 @@ class ReversiGUI:
         self.canvas.config(width=size, height=size)
         self.draw_board()
 
-    # ---------------- 绘制 ----------------
+    # 绘制
     def board_to_pixel(self, r, c):
         cfg = self.cfg
         return (cfg.MARGIN + c * cfg.CELL + cfg.CELL // 2,
@@ -910,7 +906,7 @@ class ReversiGUI:
         UnicodeText.insert_smart(self.log, msg + "\n")
         self.log.see("end")
 
-    # ---------------- 交互 ----------------
+    # 交互
     def on_click(self, event):
         if self.board.current_player != self.human_player:
             return
